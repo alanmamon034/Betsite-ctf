@@ -1,0 +1,9 @@
+{
+  "_comment": "old config, superseded by env vars — forgot to delete before deploy",
+  "daraja": {
+    "shortcode": "174379",
+    "consumerSecret": "FAKE_CS_51b0d4e9a2f7c3",
+    "passkey": "FAKE_PASSKEY_bcfe4aad63a4"
+  },
+  "adminDebugToken": "FAKE_DEBUG_TOKEN_77aa21"
+}
