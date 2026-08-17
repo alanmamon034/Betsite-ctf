@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { initiateStkPush } from "../lib/daraja";
 
 /*
   TODO before launch: remove this test token, was only for the staging
@@ -14,8 +13,24 @@ export default function Home() {
 
   async function handleDeposit(e) {
     e.preventDefault();
-    const result = await initiateStkPush(phone, amount);
-    setMessage(result.message);
+    setMessage("Sending STK push...");
+    try {
+      const res = await fetch("/api/mpesa/stkpush", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, amount }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setMessage(`Error: ${data.error}`);
+      } else {
+        setMessage(
+          `Sent. ${data.CustomerMessage || data.ResponseDescription || "Check the sandbox test phone."}`
+        );
+      }
+    } catch (err) {
+      setMessage(`Request failed: ${err.message}`);
+    }
   }
 
   return (
@@ -29,7 +44,7 @@ export default function Home() {
           <input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="2547XXXXXXXX"
+            placeholder="254708374149 (sandbox test number)"
           />
         </div>
         <div style={{ marginBottom: 12 }}>
